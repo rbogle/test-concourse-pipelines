@@ -1,0 +1,44 @@
+---
+resources:
+- name: pipelines-source
+  type: git
+  icon: github
+  source:
+    uri: https://github.com/rbogle/test-concourse-pipelines
+    branch: main
+
+- name: build-prod-west-tooling-stack
+  public: true
+  plan:
+  - get: pipelines-source
+    trigger: true
+  - set_pipeline: prod-west-tooling-stack
+    file: pipelines-source/tooling-stack/tooling-stack-pipeline.yaml
+    vars: 
+        created_by: ((source))
+    var_files:
+      - pipelines-source/tooling-stack/tooling-stack-west-vars.yaml
+  
+- name: build-prod-east-tooling-stack
+  public: true
+  plan:
+  - get: pipelines-source
+    trigger: true
+  - set_pipeline: prod-east-tooling-stack
+    file: pipelines-source/tooling-stack/tooling-stack-pipeline.yaml
+    vars: 
+      created_by: ((source))
+    var_files:
+      - pipelines-source/tooling-stack/tooling-stack-east-vars.yaml
+
+- name: build-staging-tooling-stack
+  public: true
+  plan:
+  - get: pipelines-source
+    trigger: true
+  - set_pipeline: prod-stage-tooling-stack
+    file: pipelines-source/tooling-stack/tooling-stack-pipeline.yaml
+    vars: 
+      created_by: ((source))
+    var_files:
+      - pipelines-source/tooling-stack/tooling-stack-stage-vars.yaml

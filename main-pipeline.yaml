@@ -16,7 +16,7 @@ jobs:
   - set_pipeline: self
     file: pipelines-source/main-pipeline.yaml
 
-- name: set-tooling-stack-pipelines
+- name: build-tooling-stack-pipelines
   public: true
   plan:
   - get: pipelines-source

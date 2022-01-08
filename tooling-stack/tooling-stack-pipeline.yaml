@@ -1,9 +1,9 @@
 ---
 jobs:
-- name: ((first))-job
+- name: ((environment))-job
   public: true
   plan:
-  - task: simple-task
+  - task: first-task-((environment))
     config:
       platform: linux
       image_resource:
@@ -11,16 +11,4 @@ jobs:
         source: { repository: busybox }
       run:
         path: echo
-        args: ["Hello, ((hello))!"]
-- name: level-((number))-job
-  public: true
-  plan:
-  - task: simple-task
-    config:
-      platform: linux
-      image_resource:
-        type: registry-image
-        source: { repository: busybox }
-      run:
-        path: echo
-        args: ["Hello, ((hello))!"]
+        args: ["Hello, from ((environment)). I was created by ((created_by))!"]
