@@ -1,0 +1,27 @@
+---
+resources:
+- name: pipelines-source
+  type: git
+  icon: github
+  source:
+    uri: https://github.com/rbogle/test-concourse-pipelines
+
+jobs:
+- name: set-self
+  public: true
+  plan:
+  - get: pipelines-source
+    trigger: true
+  - set_pipeline: self
+    file: pipelines-source/main-pipeline.yaml
+
+- name: set-tooling-stack-pipelines
+  public: true
+  plan:
+  - get: pipelines-source
+    trigger: true
+    passed: [set-self]
+  - set_pipeline: tooling-stacks
+    file: pipelines-source/tooling-stack/tooling-stack-pipeline.yaml
+    var_files:
+      - pipelines-source/tooling-stack/tooling-stack-vars.yaml
