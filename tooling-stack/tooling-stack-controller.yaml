@@ -15,7 +15,7 @@ jobs:
     trigger: true
   - set_pipeline: prod-west-tooling-stack
     file: pipelines-source/tooling-stack/tooling-stack-pipeline.yaml
-    vars: 
+    instance_vars: 
         created_by: ((source))
     var_files:
       - pipelines-source/tooling-stack/tooling-stack-west-vars.yaml
@@ -27,7 +27,7 @@ jobs:
     trigger: true
   - set_pipeline: prod-east-tooling-stack
     file: pipelines-source/tooling-stack/tooling-stack-pipeline.yaml
-    vars: 
+    instance_vars: 
       created_by: ((source))
     var_files:
       - pipelines-source/tooling-stack/tooling-stack-east-vars.yaml
@@ -39,7 +39,7 @@ jobs:
     trigger: true
   - set_pipeline: prod-stage-tooling-stack
     file: pipelines-source/tooling-stack/tooling-stack-pipeline.yaml
-    vars: 
+    instance_vars: 
       created_by: ((source))
     var_files:
       - pipelines-source/tooling-stack/tooling-stack-stage-vars.yaml
