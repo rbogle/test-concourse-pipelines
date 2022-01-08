@@ -22,7 +22,7 @@ jobs:
   - get: pipelines-source
     trigger: true
     passed: [set-self]
-  - set_pipeline: tooling-stacks
-    file: pipelines-source/tooling-stack/tooling-stack-pipeline.yaml
+  - set_pipeline: tooling-stacks-controller
+    file: pipelines-source/tooling-stack/tooling-stack-controller.yaml
     var_files:
-      - pipelines-source/tooling-stack/tooling-stack-vars.yaml
+      - pipelines-source/tooling-stack/tooling-stack-controller-vars.yaml
