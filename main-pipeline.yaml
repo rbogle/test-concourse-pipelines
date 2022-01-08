@@ -5,6 +5,7 @@ resources:
   icon: github
   source:
     uri: https://github.com/rbogle/test-concourse-pipelines
+    branch: main
 
 jobs:
 - name: set-self
