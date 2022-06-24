@@ -1,0 +1,14 @@
+---
+jobs:
+- name: ((environment))-job
+  public: true
+  plan:
+  - task: first-task-((environment))
+    config:
+      platform: linux
+      image_resource:
+        type: registry-image
+        source: { repository: busybox }
+      run:
+        path: echo
+        args: ["Hello, from ((environment)). The pipeline I was created by is ((created_by))!"]

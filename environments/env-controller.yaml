@@ -1,0 +1,24 @@
+---
+resources:
+- name: pipelines-source
+  type: git
+  icon: github
+  source:
+    uri: https://github.com/rbogle/test-concourse-pipelines
+    branch: main
+
+jobs:
+- name: build-environment-pipelines
+  plan:
+  - get: pipelines-source
+    trigger: true
+  - load_var: config
+    file: pipelines-source/environments/environments.json
+  - across:
+    - var: env
+      values: ((.:config.environments))
+  - set_pipeline: ((env))-deployment-pipeline
+    file: pipelines-source/environments/env-pipeline-template.yml
+    vars: 
+      environment: ((env))
+      created-by: ((source))

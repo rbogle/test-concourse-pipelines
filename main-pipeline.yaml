@@ -16,13 +16,13 @@ jobs:
   - set_pipeline: self
     file: pipelines-source/main-pipeline.yaml
 
-- name: build-tooling-stack-controller
+- name: build-environment-controller
   public: true
   plan:
   - get: pipelines-source
     trigger: true
     passed: [set-self]
-  - set_pipeline: tooling-stacks-controller
-    file: pipelines-source/tooling-stack/tooling-stack-controller.yaml
+  - set_pipeline: environment-pipeline-builder
+    file: pipelines-source/environments/env-controller.yaml
     var_files:
-      - pipelines-source/tooling-stack/tooling-stack-controller-vars.yaml
+      - pipelines-source/environments/env-controller-vars.yaml

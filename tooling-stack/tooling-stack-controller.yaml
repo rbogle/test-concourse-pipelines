@@ -37,7 +37,7 @@ jobs:
   plan:
   - get: pipelines-source
     trigger: true
-  - set_pipeline: prod-stage-tooling-stack
+  - set_pipeline: staging-tooling-stack
     file: pipelines-source/tooling-stack/tooling-stack-pipeline.yaml
     vars: 
       created_by: ((source))
