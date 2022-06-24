@@ -1,3 +1,7 @@
 {
-  "environments": [ "dev","stage","prod"]
+  "environments": [ 
+    {"name": "dev"},
+    {"name": "stage"},
+    {"name": "prod"}
+  ]
 }

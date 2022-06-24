@@ -1,8 +1,8 @@
 ---
 jobs:
-- name: ((environment))-job
+- name: ((environment.name))-job
   plan:
-  - task: first-task-((environment))
+  - task: first-task-((environment.name))
     config:
       platform: linux
       image_resource:
@@ -10,4 +10,4 @@ jobs:
         source: { repository: busybox }
       run:
         path: echo
-        args: ["Hello, from ((environment)). The pipeline I was created by is ((created_by))!"]
+        args: ["Hello, from ((environment.name)). The pipeline I was created by is ((created_by))!"]
