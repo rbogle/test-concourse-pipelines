@@ -9,7 +9,6 @@ resources:
 
 jobs:
 - name: set-self
-  public: true
   plan:
   - get: pipelines-source
     trigger: true
@@ -17,7 +16,6 @@ jobs:
     file: pipelines-source/main-pipeline.yaml
 
 - name: build-environment-controller
-  public: true
   plan:
   - get: pipelines-source
     trigger: true
