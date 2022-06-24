@@ -17,8 +17,10 @@ jobs:
   - across:
     - var: env
       values: ((.:config.environments))
-    set_pipeline: ((.:env.name))-deployment-pipeline
-    file: pipelines-source/environments/env-pipeline-template.yaml
-    vars: 
-      environment: ((.:env))
-      created_by: ((source)) # injected by the main-pipeline at set-pipeline
+    do:
+    
+     - set_pipeline: ((.:env.name))-deployment-pipeline
+       file: pipelines-source/environments/env-pipeline-template.yaml
+       vars: 
+          environment: ((.:env))
+          created_by: ((source)) # injected by the main-pipeline at set-pipeline
