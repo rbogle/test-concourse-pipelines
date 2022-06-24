@@ -10,4 +10,4 @@ jobs:
         source: { repository: busybox }
       run:
         path: echo
-        args: ["Hello, from ((environment.name)). The pipeline I was created by is ((created_by))!"]
+        args: ["Hello, from ((environment.name)). The pipeline I was created by ((created_by))!"]
