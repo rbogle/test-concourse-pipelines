@@ -18,7 +18,7 @@ jobs:
     - var: env
       values: ((.:config.environments))
     set_pipeline: ((.:env))-deployment-pipeline
-    file: pipelines-source/environments/env-pipeline-template.yml
+    file: pipelines-source/environments/env-pipeline-template.yaml
     vars: 
       environment: ((.:env))
       created-by: ((source))
