@@ -21,4 +21,4 @@ jobs:
     file: pipelines-source/environments/env-pipeline-template.yaml
     vars: 
       environment: ((.:env))
-      created-by: ((source))
+      created_by: ((source))
