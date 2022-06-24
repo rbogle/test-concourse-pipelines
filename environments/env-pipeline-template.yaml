@@ -1,7 +1,6 @@
 ---
 jobs:
 - name: ((environment))-job
-  public: true
   plan:
   - task: first-task-((environment))
     config:
