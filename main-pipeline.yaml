@@ -36,6 +36,7 @@ jobs:
 
 - name: build-environment-controller
   plan:
+  - get: pipeline-locks
   - get: pipelines-source
     trigger: true
     passed: [set-self]
