@@ -18,7 +18,7 @@ jobs:
     - var: env
       values: ((.:config.environments))
     do:
-    
+     # we can add a task for pipeline file building 
      - set_pipeline: ((.:env.name))-deployment-pipeline
        file: pipelines-source/environments/env-pipeline-template.yaml
        vars: 

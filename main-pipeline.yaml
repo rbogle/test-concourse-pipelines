@@ -7,11 +7,27 @@ resources:
     uri: https://github.com/rbogle/test-concourse-pipelines
     branch: main
 
+- name: pipeline-lock
+  type: pool
+  source:
+    uri: git@github.com:rbogle/concourse-locks.git
+    branch: main
+    pool: controller
+
+
 jobs:
+- name: lock-pipeline
+  plan:
+  - get: pipelines-source
+    trigger: true
+  - put: pipeline-lock
+    params: {claim: main-pipeline}
+
 - name: set-self
   plan:
   - get: pipelines-source
     trigger: true
+    passed: [lock-pipeline]
   - set_pipeline: self
     file: pipelines-source/main-pipeline.yaml
 
@@ -24,3 +40,7 @@ jobs:
     file: pipelines-source/environments/env-controller.yaml
     var_files:
       - pipelines-source/environments/env-controller-vars.yaml
+  - get: pipeline-lock
+    passed: [build-environment-controller]
+  - put: pipeline-lock
+    params: {release: main-pipeline}

@@ -11,3 +11,11 @@ jobs:
       run:
         path: echo
         args: ["Hello, from ((environment.name)). The pipeline I was created by ((created_by))!"]
+
+resources:
+- name: pipeline-lock
+  type: pool
+  source:
+    uri: git@github.com:rbogle/concourse-locks.git
+    branch: main
+    pool: ((environment.name))
