@@ -13,7 +13,8 @@ resources:
     uri: https://github.com/rbogle/concourse-locks
     branch: main
     pool: controller
-
+    username: rbogle
+    password: ((git_passwd))
 
 jobs:
 - name: lock-pipeline
@@ -30,6 +31,8 @@ jobs:
     passed: [lock-pipeline]
   - set_pipeline: self
     file: pipelines-source/main-pipeline.yaml
+    vars: 
+      git_passwd: ((git_passwd))
 
 - name: build-environment-controller
   plan:
