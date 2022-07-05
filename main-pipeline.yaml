@@ -20,8 +20,7 @@ jobs:
   plan:
   - get: pipelines-source
     trigger: true
-  - put: main-pipeline-lock
-    resource: pipeline-locks
+  - put: pipeline-locks
     params: {claim: main-pipeline}
 
 - name: set-self
@@ -45,4 +44,4 @@ jobs:
     var_files:
       - pipelines-source/environments/env-controller-vars.yaml
   - put: pipeline-locks
-    params: {release: main-pipeline-lock}
+    params: {release: pipeline-locks}
