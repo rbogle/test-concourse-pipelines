@@ -10,7 +10,7 @@ resources:
 - name: pipeline-lock
   type: pool
   source:
-    uri: git@github.com:rbogle/concourse-locks.git
+    uri: https://github.com/rbogle/concourse-locks
     branch: main
     pool: controller
 
