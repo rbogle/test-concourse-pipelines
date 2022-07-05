@@ -40,7 +40,5 @@ jobs:
     file: pipelines-source/environments/env-controller.yaml
     var_files:
       - pipelines-source/environments/env-controller-vars.yaml
-  - get: pipeline-lock
-    passed: [build-environment-controller]
   - put: pipeline-lock
     params: {release: main-pipeline}
