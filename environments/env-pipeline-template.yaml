@@ -2,9 +2,10 @@
 jobs:
 - name: ((environment.name))-job
   plan:
-  - put: env-pipeline-lock
+  - get: env-pipeline-lock
     resource: pipeline-locks
-    params: {claim: env-pipeline}
+    params: {name: env-pipeline}
+    trigger: true
   - task: first-task-((environment.name))
     config:
       platform: linux
