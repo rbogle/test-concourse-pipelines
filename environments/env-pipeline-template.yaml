@@ -1,11 +1,13 @@
 ---
 jobs:
-- name: ((environment.name))-job
+- name: ((environment.name))-set-lock
   plan:
-  - get: env-pipeline-lock
+  - put: env-pipeline-lock
     resource: pipeline-locks
     params: {name: env-pipeline}
-    trigger: true
+
+- name: ((environment.name))-task
+  plan:
   - task: first-task-((environment.name))
     config:
       platform: linux
@@ -15,6 +17,9 @@ jobs:
       run:
         path: echo
         args: ["Hello, from ((environment.name)). The pipeline I was created by ((created_by))!"]
+
+- name: ((environment.name))-release-lock
+  plan:
   - put: pipeline-locks
     params: {release: env-pipeline-lock}
 
