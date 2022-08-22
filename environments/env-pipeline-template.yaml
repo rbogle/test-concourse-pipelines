@@ -9,6 +9,7 @@ jobs:
 - name: ((environment.name))-task
   plan:
   - task: first-task-((environment.name))
+    passed: [((environment.name))-set-lock]
     config:
       platform: linux
       image_resource:
@@ -21,6 +22,7 @@ jobs:
 - name: ((environment.name))-release-lock
   plan:
   - put: pipeline-locks
+    passed: [((environment.name))-task]
     params: {release: env-pipeline-lock}
 
 resources:
