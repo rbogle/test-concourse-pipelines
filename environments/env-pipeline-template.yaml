@@ -2,6 +2,9 @@
 jobs:
 - name: ((environment.name))-job
   plan:
+  - put: env-pipeline-lock
+    resource: pipeline-locks
+    params: {claim: env-pipeline}
   - task: first-task-((environment.name))
     config:
       platform: linux
@@ -11,9 +14,11 @@ jobs:
       run:
         path: echo
         args: ["Hello, from ((environment.name)). The pipeline I was created by ((created_by))!"]
+  - put: pipeline-locks
+    params: {release: env-pipeline-lock}
 
 resources:
-- name: pipeline-lock
+- name: pipeline-locks
   type: pool
   source:
     uri: git@github.com:rbogle/concourse-locks.git

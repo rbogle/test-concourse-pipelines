@@ -22,5 +22,5 @@ jobs:
      - set_pipeline: ((.:env.name))-deployment-pipeline
        file: pipelines-source/environments/env-pipeline-template.yaml
        vars: 
-          environment: ((.:env))
+          environment: ((.:env)) # pass a whole json object
           created_by: ((source)) # injected by the main-pipeline at set-pipeline

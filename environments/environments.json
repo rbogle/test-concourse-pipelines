@@ -1,7 +1,28 @@
 {
   "environments": [ 
-    {"name": "dev"},
-    {"name": "stage"},
-    {"name": "prod"}
+    {
+      "name": "dev",
+      "git_uri" : "",
+      "git_branch" : "",
+      "path": "",
+      "parent": "",
+      "child": ""
+    },
+    {
+      "name": "stage",
+      "git_uri" : "",
+      "git_branch" : "",
+      "path": "",
+      "parent": "",
+      "child": ""
+    },
+    {
+      "name": "prod",
+      "git_uri" : "",
+      "git_branch" : "",
+      "path": "",
+      "parent": "",
+      "child": ""
+    }
   ]
 }
