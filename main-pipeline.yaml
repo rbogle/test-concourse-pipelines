@@ -13,7 +13,7 @@ resources:
     uri: git@github.com:rbogle/concourse-locks.git
     branch: main
     pool: controller
-    private_key: ((git_key))
+    private_key: ((git_key)) #ssh key
 
 jobs:
 - name: lock-pipeline
