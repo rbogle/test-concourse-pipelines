@@ -24,3 +24,4 @@ resources:
     uri: git@github.com:rbogle/concourse-locks.git
     branch: main
     pool: ((environment.name))
+    private_key: ((git_key))

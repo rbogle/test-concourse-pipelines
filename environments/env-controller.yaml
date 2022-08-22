@@ -24,3 +24,4 @@ jobs:
        vars: 
           environment: ((.:env)) # pass a whole json object
           created_by: ((source)) # injected by the main-pipeline at set-pipeline
+          git_key: ((git_key))

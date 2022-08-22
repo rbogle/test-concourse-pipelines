@@ -43,5 +43,7 @@ jobs:
     file: pipelines-source/environments/env-controller.yaml
     var_files:
       - pipelines-source/environments/env-controller-vars.yaml
+    vars: 
+      git_key: ((git_key))
   - put: pipeline-locks
     params: {release: pipeline-locks}
