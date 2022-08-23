@@ -1,25 +1,15 @@
-{
-  "environments": [ 
-    {
-      "name": "dev",
-      "state_repo" : "https://github.com/rbogle/test-concourse-pipelines",
-      "state_branch" : "main",
-      "state_path": "states",
-      "depends_on": "self"
-    },
-    {
-      "name": "stage",
-      "source_repo" : "https://github.com/rbogle/test-concourse-pipelines",
-      "source_branch" : "main",
-      "path": "states",
-      "depends_on": "dev"
-    },
-    {
-      "name": "prod",
-      "source_repo" : "https://github.com/rbogle/test-concourse-pipelines",
-      "source_branch" : "main",
-      "path": "states",
-      "depends_on": "stage"
-    }
-  ]
-}
+environments: 
+  - name: "development"
+    state_repo: "https://github.com/rbogle/test-concourse-pipelines"
+    state_branch: "deployments"
+    depends_on: "self"
+
+  - name: "staging"
+    state_repo: "https://github.com/rbogle/test-concourse-pipelines"
+    state_branch: "deployments"
+    depends_on: "development"
+
+  - name": "production"
+    sstate_repo: "https://github.com/rbogle/test-concourse-pipelines"
+    state_branch: "deployments"
+    depends_on: "staging"
