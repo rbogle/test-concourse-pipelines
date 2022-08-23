@@ -1,6 +1,6 @@
 ---
 jobs:
-- name: ((environment.name))-set-lock
+- name: set-lock
   plan:
     # Trigger here
   - get: ((environment.name))-source
@@ -8,10 +8,12 @@ jobs:
     resource: pipeline-locks
     params: {claim: env-pipeline}
 
+# do env compoent jobs
+
 - name: ((environment.name))-task
   plan:
   - get: ((environment.name))-source
-    passed: [((environment.name))-set-lock]
+    passed: [set-lock]
   - task: first-task-((environment.name))
     config:
       platform: linux
@@ -22,12 +24,19 @@ jobs:
         path: echo
         args: ["Hello, from ((environment.name)). The pipeline I was created by ((created_by))!"]
 
-- name: ((environment.name))-release-lock
+
+# gather and push versions
+- name: set-versions
+  plan:
+   - get: 
+
+- name: release-lock
   plan:
   - get: ((environment.name))-source
-    passed: [((environment.name))-task]
+    passed: [set-versions]
   - put: pipeline-locks
     params: {release: env-pipeline-lock}
+
 
 resources:
 - name: pipeline-locks

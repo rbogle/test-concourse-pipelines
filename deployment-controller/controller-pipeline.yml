@@ -8,21 +8,21 @@ resources:
     branch: main
 
 jobs:
-- name: build-environment-pipelines
+- name: build-platform-pipelines
   plan:
   - get: pipelines-source
     trigger: true
   - load_var: config
-    file: pipelines-source/environments.json
+    file: pipelines-source/deployments/platform/manifest.yml
   - across:
     - var: env
       values: ((.:config.environments))
     do:
      # we can add a task for pipeline file building 
-     - set_pipeline: ((.:env.name))-deployment-pipeline
-       file: pipelines-source/environments/env-pipeline-template.yaml
+     - set_pipeline: platform-((.:env.name))-deployment-pipeline
+       file: pipelines-source/deployments/platform/pipeline-template.yaml
        vars-files:
-        - pipelines-source/states/((.env:name))-versions.yml
+        - pipelines-source/deployments/platform/((.env:name))/versions.yml
        vars: 
           environment: ((.:env)) # pass a whole json object
           # state_file: ((.:env.name))-state-file.yml
