@@ -43,4 +43,4 @@ resources:
   icon: github
   source:
     uri: ((environment.source_repo))
-    branch: ((envronment.source_branch))
+    branch: ((environment.source_branch))
