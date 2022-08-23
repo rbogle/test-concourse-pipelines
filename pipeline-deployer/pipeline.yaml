@@ -33,7 +33,7 @@ jobs:
     vars: 
       git_key: ((git_key))
 
-- name: build-environment-controller
+- name: build-deployment-controller
   plan:
   - get: pipeline-locks
   - get: pipelines-source
@@ -45,5 +45,11 @@ jobs:
       - pipelines-source/controller/controller-vars.yaml
     vars: 
       git_key: ((git_key))
+
+- name: release-lock
+  plan: 
+  - get: pipelines-source
+    trigger: true
+    passed: [build-deployment-controller]
   - put: pipeline-locks
     params: {release: pipeline-locks}
