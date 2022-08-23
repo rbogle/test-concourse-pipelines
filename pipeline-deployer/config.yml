@@ -1,0 +1,8 @@
+source_repo: https://github.com/rbogle/test-concourse-pipelines
+source_branch: main
+
+locks_repo: git@github.com:rbogle/concourse-locks.git
+locks_branch: main
+locks_pool: controller
+
+# git_key: passed from creds_file

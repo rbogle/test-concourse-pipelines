@@ -4,15 +4,15 @@ resources:
   type: git
   icon: github
   source:
-    uri: https://github.com/rbogle/test-concourse-pipelines
-    branch: main
+    uri: ((source_repo))
+    branch: ((source_branch))
 
 - name: pipeline-locks
   type: pool
   source:
-    uri: git@github.com:rbogle/concourse-locks.git
-    branch: main
-    pool: controller
+    uri: ((locks_repo))
+    branch: ((locks-branch))
+    pool: ((locks-pool))
     private_key: ((git_key)) #ssh key
 
 jobs:
@@ -29,7 +29,9 @@ jobs:
     trigger: true
     passed: [lock-pipeline]
   - set_pipeline: self
-    file: pipelines-source/deployer/pipeline.yaml
+    file: pipelines-source/pipeline-deployer/pipeline.yml
+    var-files:
+      - pipelines-source/pipeline-deployer/config.yml
     vars: 
       git_key: ((git_key))
 
@@ -39,10 +41,10 @@ jobs:
   - get: pipelines-source
     trigger: true
     passed: [set-self]
-  - set_pipeline: environment-pipeline-builder
-    file: pipelines-source/controller/controller-pipeline.yaml
+  - set_pipeline: deployment-controller
+    file: pipelines-source/deployment-controller/controller-pipeline.yml
     var_files:
-      - pipelines-source/controller/controller-vars.yaml
+      - pipelines-source/deployment-controller/controller-vars.yml
     vars: 
       git_key: ((git_key))
 
