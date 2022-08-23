@@ -2,14 +2,16 @@
 jobs:
 - name: ((environment.name))-set-lock
   plan:
+    # Trigger here
   - put: env-pipeline-lock
     resource: pipeline-locks
     params: {name: env-pipeline}
 
 - name: ((environment.name))-task
   plan:
-  - task: first-task-((environment.name))
+  - get: ((environment.name))-source
     passed: [((environment.name))-set-lock]
+  - task: first-task-((environment.name))
     config:
       platform: linux
       image_resource:
@@ -21,8 +23,9 @@ jobs:
 
 - name: ((environment.name))-release-lock
   plan:
-  - put: pipeline-locks
+  - get: ((environment.name))-source
     passed: [((environment.name))-task]
+  - put: pipeline-locks
     params: {release: env-pipeline-lock}
 
 resources:
@@ -33,3 +36,10 @@ resources:
     branch: main
     pool: ((environment.name))
     private_key: ((git_key))
+
+- name: ((environment.name))-source
+  type: git
+  icon: github
+  source:
+    uri: ((environment.source_repo))
+    branch: ((envronment.source_branch))
