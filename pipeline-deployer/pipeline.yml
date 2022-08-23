@@ -11,8 +11,8 @@ resources:
   type: pool
   source:
     uri: ((locks_repo))
-    branch: ((locks-branch))
-    pool: ((locks-pool))
+    branch: ((locks_branch))
+    pool: ((locks_pool))
     private_key: ((git_key)) #ssh key
 
 jobs:
