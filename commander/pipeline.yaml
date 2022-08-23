@@ -29,7 +29,7 @@ jobs:
     trigger: true
     passed: [lock-pipeline]
   - set_pipeline: self
-    file: pipelines-source/main-pipeline.yaml
+    file: pipelines-source/deployer/pipeline.yaml
     vars: 
       git_key: ((git_key))
 
@@ -40,9 +40,9 @@ jobs:
     trigger: true
     passed: [set-self]
   - set_pipeline: environment-pipeline-builder
-    file: pipelines-source/environments/env-controller.yaml
+    file: pipelines-source/controller/controller-pipeline.yaml
     var_files:
-      - pipelines-source/environments/env-controller-vars.yaml
+      - pipelines-source/controller/controller-vars.yaml
     vars: 
       git_key: ((git_key))
   - put: pipeline-locks

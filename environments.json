@@ -2,27 +2,24 @@
   "environments": [ 
     {
       "name": "dev",
-      "source_repo" : "https://github.com/rbogle/test-concourse-pipelines",
-      "source_branch" : "main",
-      "path": "",
-      "parent": "",
-      "child": ""
+      "state_repo" : "https://github.com/rbogle/test-concourse-pipelines",
+      "state_branch" : "main",
+      "state_path": "states",
+      "depends_on": "self"
     },
     {
       "name": "stage",
       "source_repo" : "https://github.com/rbogle/test-concourse-pipelines",
       "source_branch" : "main",
-      "path": "",
-      "parent": "",
-      "child": ""
+      "path": "states",
+      "depends_on": "dev"
     },
     {
       "name": "prod",
       "source_repo" : "https://github.com/rbogle/test-concourse-pipelines",
       "source_branch" : "main",
-      "path": "",
-      "parent": "",
-      "child": ""
+      "path": "states",
+      "depends_on": "stage"
     }
   ]
 }
