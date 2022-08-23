@@ -3,6 +3,7 @@ jobs:
 - name: ((environment.name))-set-lock
   plan:
     # Trigger here
+  - get: ((environment.name))-source
   - put: env-pipeline-lock
     resource: pipeline-locks
     params: {name: env-pipeline}
