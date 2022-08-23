@@ -30,7 +30,7 @@ jobs:
     passed: [lock-pipeline]
   - set_pipeline: self
     file: pipelines-source/pipeline-deployer/pipeline.yml
-    var-files:
+    var_files:
       - pipelines-source/pipeline-deployer/config.yml
     vars: 
       git_key: ((git_key))
