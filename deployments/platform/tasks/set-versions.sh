@@ -1,5 +1,8 @@
 #!/bin/sh
 
+exec 3>&1 # make stdout available as fd 3 for the result
+exec 1>&2 # redirect all output to stderr for logging
+
 # login to fly and get token
 fly -t ${CONCOURSE_TARGET} login -c ${CONCOURSE_URL} -u ${CONCOURSE_USER} -p ${CONCOURSE_PASSWD}
 fly -t ${CONCOURSE_TARGET} sync
@@ -15,4 +18,4 @@ BUILD_TEAM_NAME=$(cat metadata/build-team-name)
 # Output build info
 versions=$(fly -t ${CONCOURSE_TARGET} curl /api/v1/builds/${BUILD_ID}/resources  -- -s | jq '.inputs | map( { (.name): .version } ) | add')
 echo ${versions} | yq -P > versions/resource_versions.yml 
-echo ${versions}
+echo ${versions} > &3
