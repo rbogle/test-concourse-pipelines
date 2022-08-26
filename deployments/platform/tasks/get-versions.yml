@@ -19,4 +19,4 @@ outputs:
 #  CONCOURSE_PASSWD: 
 
 run:
-  path: pipelines_source/deployments/platform/tasks/set-versions.sh 
+  path: pipelines_source/deployments/platform/tasks/get-versions.sh 

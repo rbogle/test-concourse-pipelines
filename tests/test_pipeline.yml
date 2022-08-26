@@ -22,7 +22,7 @@ jobs:
      trigger: true
    - get: metadata
    - task: set_versions
-     file: pipelines_source/deployments/platform/tasks/set-versions.yml
+     file: pipelines_source/deployments/platform/tasks/get-versions.yml
      params:
       CONCOURSE_TARGET: ((concourse_target))
       CONCOURSE_URL: ((concourse_url))
