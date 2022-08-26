@@ -3,7 +3,7 @@ platform: linux
 
 image_resource:
   type: registry-image
-  source: {repository: teliaoss/concourse-fly}
+  source: {repository: rbogle/concourse-fly}
 
 inputs: 
  - name: pipelines_source
