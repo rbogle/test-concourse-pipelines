@@ -4,13 +4,14 @@
 fly -t ${CONCOURSE_TARGET} login -c ${CONCOURSE_URL} -u ${CONCOURSE_USER} -p ${CONCOURSE_PASSWD}
 fly -t ${CONCOURSE_TARGET} sync
 BEARER_TOKEN=$(cat ~/.flyrc | grep value | awk '{ print $2 }')
-echo "${BEARER_TOKEN}" >  build_info/bearer-token
+echo "${BEARER_TOKEN}" >  versions/bearer-token
+
+BUILD_ID=$(cat metadata/build-id)
+BUILD_NAME=$(cat metadata/build-name)
+BUILD_JOB_NAME=$(cat metadata/build-job-name)
+BUILD_PIPELINE_NAME=$(cat metadata/build-pipeline-name)
+BUILD_TEAM_NAME=$(cat metadata/build-team-name)
 
 # Output build info
-cat metadata/build-id > build_info/build-id
-cat metadata/build-name > build_info/build-name
-cat metadata/build-job-name > build_info/build-job-name
-cat metadata/build-pipeline-name > build_info/build-pipeline-name
-cat metadata/build-team-name > build_info/build-team-name
-cat metadata/atc-external-url > build_info/atc-external-url
+fly -t ${CONCOURSE_TARGET} curl /api/v1/builds/${BUILD_ID}/resources
 

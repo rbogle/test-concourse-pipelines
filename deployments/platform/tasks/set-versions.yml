@@ -10,7 +10,7 @@ inputs:
  - name: metadata
 
 outputs: 
- - name: build_info
+ - name: versions
 
 # params:
 #  CONCOURSE_TARGET: 

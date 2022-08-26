@@ -27,4 +27,3 @@ jobs:
       CONCOURSE_URL: ((concourse_url))
       CONCOURSE_USER: ((concourse_user))
       CONCOURSE_PASSWD: ((concourse_passwd))
-      CONCOURSE_VERSION: 7.8.1
