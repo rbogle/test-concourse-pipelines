@@ -19,6 +19,7 @@ jobs:
 - name: first_job
   plan:
    - get: pipelines_source
+     trigger: true
    - get: metadata
    - task: set_versions
      file: pipelines_source/deployments/platform/tasks/set-versions.yml
