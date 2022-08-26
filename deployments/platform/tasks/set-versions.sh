@@ -18,4 +18,4 @@ BUILD_TEAM_NAME=$(cat metadata/build-team-name)
 # Output build info
 versions=$(fly -t ${CONCOURSE_TARGET} curl /api/v1/builds/${BUILD_ID}/resources  -- -s | jq '.inputs | map( { (.name): .version } ) | add')
 echo ${versions} | yq -P > versions/resource_versions.yml 
-echo ${versions} > &3
+echo ${versions} >&3
