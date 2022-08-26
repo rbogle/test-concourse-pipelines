@@ -6,11 +6,21 @@ resources:
     uri: ((source_repo))
     branch: ((source_branch))
 
+- name: metadata
+  type: build-metadata
+
+resource_types:
+  - name: build-metadata
+    type: registry-image
+    source:
+      repository: mastertinner/build-metadata-resource
+
 jobs:
-- name:
+- name: first_job
   plan:
    - get: pipelines_source
-   - task:
+   - get: metadata
+   - task: set_versions
      file: pipelines_source/deployments/platform/tasks/set-versions.yml
      params:
       CONCOURSE_TARGET: ((concourse_target))
