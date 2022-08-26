@@ -13,5 +13,5 @@ BUILD_PIPELINE_NAME=$(cat metadata/build-pipeline-name)
 BUILD_TEAM_NAME=$(cat metadata/build-team-name)
 
 # Output build info
-fly -t ${CONCOURSE_TARGET} curl /api/v1/builds/${BUILD_ID}/resources | yq -P > versions/resource_versions.yml 
+fly -t ${CONCOURSE_TARGET} curl /api/v1/builds/${BUILD_ID}/resources  -- -s | jq '.inputs | map( { (.name): .version } ) | add' | yq -P > versions/resource_versions.yml 
 
