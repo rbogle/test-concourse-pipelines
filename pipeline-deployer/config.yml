@@ -1,5 +1,5 @@
 source_repo: https://github.com/rbogle/test-concourse-pipelines
-source_branch: deployments
+source_branch: main
 
 locks_repo: git@github.com:rbogle/concourse-locks.git
 locks_branch: main
