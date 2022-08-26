@@ -1,44 +1,79 @@
 ---
 jobs:
+
+# lock pipeline till completed running
 - name: set-lock
   plan:
-    # Trigger here
-  - get: ((environment.name))-source
+  - get: component-a
+    trigger: true
+    version: ((resource_version_component-a))
+  - get: component-b
+    trigger: true
+    version: ((resource_version_component-b))
+  - get: component-c
+    trigger: true
+    version: ((resource_version_component-c))
   - put: env-pipeline-lock
     resource: pipeline-locks
     params: {claim: env-pipeline}
 
 # do env compoent jobs
-
-- name: ((environment.name))-task
+- name: build-component-a
   plan:
-  - get: ((environment.name))-source
+  - get: component-a
+    version: ((resource_version_component-a))
+    trigger: true
     passed: [set-lock]
-  - task: first-task-((environment.name))
-    config:
-      platform: linux
-      image_resource:
-        type: registry-image
-        source: { repository: busybox }
-      run:
-        path: echo
-        args: ["Hello, from ((environment.name)). The pipeline I was created by ((created_by))!"]
+  - task: first-task-component-a
+    file: component-a/tasks/first_task.yml
 
+- name: build-component-b
+  plan:
+  - get: component-b
+    version: ((resource_version_component-b))
+    trigger: true
+    passed: [set-lock]
+  - task: first-task-component-b
+    file: component-a/tasks/first_task.yml
+
+- name: build-component-c
+  plan:
+  - get: component-c
+    version: ((resource_version_component-c))
+    trigger: true
+    passed: [set-lock]
+  - task: first-task-component-c
+    file: component-c/tasks/first_task.yml
 
 # gather and push versions
 - name: set-versions
   plan:
-   - get: 
+  - get: component-a
+    trigger: true
+    version: ((resource_version_component-a))
+    passed: [build-component-a, build-component-b, build-component-c]
+  - get: component-b
+    trigger: true
+    version: ((resource_version_component-b))
+    passed: [build-component-a, build-component-b, build-component-c]
+  - get: component-c
+    trigger: true
+    version: ((resource_version_component-c))
+    passed: [build-component-a, build-component-b, build-component-c]
+  - get: ((environment.name))-state
+  - task: set-versions
+    file: ((environment.name))-state/deployments/platform/tasks/set-versions.yml
+
 
 - name: release-lock
   plan:
-  - get: ((environment.name))-source
+  - get: ((environment.name))-state
     passed: [set-versions]
   - put: pipeline-locks
     params: {release: env-pipeline-lock}
 
-
 resources:
+# locking pool
 - name: pipeline-locks
   type: pool
   source:
@@ -47,9 +82,32 @@ resources:
     pool: ((environment.name))
     private_key: ((git_key))
 
-- name: ((environment.name))-source
+# where we will set our state
+- name: ((environment.name))-state
   type: git
   icon: github
   source:
-    uri: ((environment.source_repo))
-    branch: ((environment.source_branch))
+    uri: ((environment.state_repo))
+    branch: ((environment.state_branch))
+
+# components to run
+- name: component-a
+  type: git
+  icon: github
+  source:
+    uri: ((component-a.repo))
+    branch: ((component-a.branch))
+
+- name: component-b
+  type: git
+  icon: github
+  source:
+    uri: ((component-b.repo))
+    branch: ((component-b.branch))
+
+- name: component-c
+  type: git
+  icon: github
+  source:
+    uri: ((component-c.repo))
+    branch: ((component-c.branch))

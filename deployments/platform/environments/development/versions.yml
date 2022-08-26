@@ -1,0 +1,6 @@
+resource_version_component-a:
+ ref: latest
+resource_version_component-b:
+ ref: latest
+resource_version_component-c:
+ ref: latest

@@ -1,0 +1,22 @@
+---
+platform: linux
+
+image_resource:
+  type: registry-image
+  source: {repository: teliaoss/concourse-fly}
+
+inputs: 
+ - name: pipelines_source
+
+outputs: 
+ - name: build_info
+
+# params:
+#  CONCOURSE_TARGET: ((concourse_target))
+#  CONCOURSE_URL: ((concourse_url))
+#  CONCOURSE_USER: ((concourse_user))
+#  CONCOURSE_PASSWD: ((concourse_passwd))
+#  CONCOURSE_VERSION: 7.8.1
+
+run:
+  path: pipelines_source/deployments/platform/tasks/set-versions.sh 

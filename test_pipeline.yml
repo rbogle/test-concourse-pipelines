@@ -1,0 +1,20 @@
+resources: 
+- name: pipelines_source
+  type: git
+  icon: github
+  source:
+    uri: ((source_repo))
+    branch: ((source_branch))
+
+jobs:
+- name:
+  plan:
+   - get: pipelines_source
+   - task:
+     file: pipelines_source/deployments/platform/tasks/set-versions.yml
+     params:
+      CONCOURSE_TARGET: ((concourse_target))
+      CONCOURSE_URL: ((concourse_url))
+      CONCOURSE_USER: ((concourse_user))
+      CONCOURSE_PASSWD: ((concourse_passwd))
+      CONCOURSE_VERSION: 7.8.1
