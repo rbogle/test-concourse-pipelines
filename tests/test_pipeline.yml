@@ -5,6 +5,8 @@ resources:
   source:
     uri: ((source_repo))
     branch: ((source_branch))
+    private_key: ((source_sshkey))
+    igonore_paths: "deployments/platform/environments/*"
 
 - name: metadata
   type: build-metadata
@@ -21,10 +23,14 @@ jobs:
    - get: pipelines_source
      trigger: true
    - get: metadata
-   - task: set_versions
-     file: pipelines_source/deployments/platform/tasks/get-versions.yml
+   - task: get_versions
+     file: pipelines_source/deployments/platform/tasks/set-versions.yml
      params:
       CONCOURSE_TARGET: ((concourse_target))
       CONCOURSE_URL: ((concourse_url))
       CONCOURSE_USER: ((concourse_user))
       CONCOURSE_PASSWD: ((concourse_passwd))
+      OUTPUT_PATH: pipelines_source/deployments/platform/environments/development/output_versions.yml
+   - put: pipelines_source
+     params:
+       repository: pipelines_source

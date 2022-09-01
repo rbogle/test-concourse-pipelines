@@ -9,14 +9,15 @@ inputs:
  - name: pipelines_source
  - name: metadata
 
-outputs: 
+outputs:
  - name: versions
 
 # params:
 #  CONCOURSE_TARGET: 
 #  CONCOURSE_URL: 
 #  CONCOURSE_USER: 
-#  CONCOURSE_PASSWD: 
+#  CONCOURSE_PASSWD:
+#  OUTPUT_FILE:
 
 run:
-  path: pipelines_source/deployments/platform/tasks/get-versions.sh 
+  path: pipelines_source/deployments/platform/tasks/set-versions.sh 

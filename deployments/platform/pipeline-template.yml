@@ -61,7 +61,7 @@ jobs:
     version: ((resource_version_component-c))
     passed: [build-component-a, build-component-b, build-component-c]
   - get: ((environment.name))-state
-  - task: set-versions
+  - task: get-versions
     file: ((environment.name))-state/deployments/platform/tasks/set-versions.yml
 
 
