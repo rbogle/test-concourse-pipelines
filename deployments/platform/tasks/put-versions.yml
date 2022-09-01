@@ -1,0 +1,19 @@
+---
+platform: linux
+
+image_resource:
+  type: registry-image
+  source: {repository: rbogle/concourse-fly}
+
+inputs: 
+ - name: pipelines_source
+ - name: versions
+
+outputs:
+ - name: pipelines_source
+
+# params:
+#  OUTPUT_FILE
+
+run:
+  path: pipelines_source/deployments/platform/tasks/put-versions.sh 

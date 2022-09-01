@@ -30,7 +30,10 @@ jobs:
       CONCOURSE_URL: ((concourse_url))
       CONCOURSE_USER: ((concourse_user))
       CONCOURSE_PASSWD: ((concourse_passwd))
-      OUTPUT_PATH: pipelines_source/deployments/platform/environments/development/output_versions.yml
+   - task: commit_versions
+     file: pipelines_source/deployments/platform/tasks/put-versions.yml
+     params:
+      OUTPUT_FILE: pipelines_source/deployments/platform/environments/development/output_versions.yml
    - put: pipelines_source
      params:
        repository: pipelines_source

@@ -17,7 +17,6 @@ outputs:
 #  CONCOURSE_URL: 
 #  CONCOURSE_USER: 
 #  CONCOURSE_PASSWD:
-#  OUTPUT_FILE:
 
 run:
   path: pipelines_source/deployments/platform/tasks/set-versions.sh 

@@ -16,10 +16,6 @@ BUILD_TEAM_NAME=$(cat metadata/build-team-name)
 VERSIONS=$(fly -t ${CONCOURSE_TARGET} curl /api/v1/builds/${BUILD_ID}/resources  -- -s | jq '.inputs | map( { (.name): .version } ) | add')
 echo ${VERSIONS} | yq -P > versions/resource_versions.yml 
 
-if [ -n "${OUTPUT_PATH}" ]; then
-    echo ${VERSIONS} | yq -P > ${OUTPUT_FILE}
-fi
-
 echo
 echo "Resource Versions used in build:"
 echo ${VERSIONS} | jq 
