@@ -12,4 +12,6 @@ if [ ! -z ${NEW_BRANCH} ]; then
     git switch -c ${NEW_BRANCH}
 fi
 
+git add .
+
 git commit -a -m "commiting build's resource version data"
