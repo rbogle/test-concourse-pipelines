@@ -2,6 +2,7 @@
 jobs:
 
 # lock pipeline till completed running
+# prevents starting multiple concurent runs
 - name: set-lock
   plan:
   - get: component-a
@@ -17,7 +18,7 @@ jobs:
     resource: pipeline-locks
     params: {claim: env-pipeline}
 
-# do env compoent jobs
+# do env component jobs
 - name: build-component-a
   plan:
   - get: component-a
@@ -62,9 +63,21 @@ jobs:
     passed: [build-component-a, build-component-b, build-component-c]
   - get: ((environment.name))-state
   - task: get-versions
-    file: ((environment.name))-state/deployments/platform/tasks/set-versions.yml
+    file: ((environment.name))-state/deployments/platform/tasks/get-versions.yml
+    params:
+      CONCOURSE_TARGET: 
+      CONCOURSE_URL: 
+      CONCOURSE_USER: 
+      CONCOURSE_PASSWD:
+  - task: put-versions
+    file: ((environment.name))-state/deployments/platform/tasks/put-versions.yml
+    params:
+      OUTPUT_FILE: deployments/platform/environements/((environment.name))/output_versions.yml
+  - put: ((environment.name))-state #merges versions from above into 
+    repo: ((environment.name))-state
 
 
+# release the lock on this pipeline
 - name: release-lock
   plan:
   - get: ((environment.name))-state
@@ -90,7 +103,7 @@ resources:
     uri: ((environment.state_repo))
     branch: ((environment.state_branch))
 
-# components to run
+# component tasks or pipelines to run
 - name: component-a
   type: git
   icon: github

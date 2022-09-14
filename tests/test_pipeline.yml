@@ -24,16 +24,16 @@ jobs:
      trigger: true
    - get: metadata
    - task: get_versions
-     file: pipelines_source/deployments/platform/tasks/set-versions.yml
+     file: pipelines_source/deployments/platform/tasks/get-versions.yml
      params:
       CONCOURSE_TARGET: ((concourse_target))
       CONCOURSE_URL: ((concourse_url))
       CONCOURSE_USER: ((concourse_user))
       CONCOURSE_PASSWD: ((concourse_passwd))
-   - task: commit_versions
+   - task: put_versions
      file: pipelines_source/deployments/platform/tasks/put-versions.yml
      params:
-      OUTPUT_FILE: pipelines_source/deployments/platform/environments/development/output_versions.yml
+      OUTPUT_FILE: deployments/platform/environments/development/output_versions.yml
    - put: pipelines_source
      params:
        repository: pipelines_source
