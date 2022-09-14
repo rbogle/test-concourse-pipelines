@@ -33,6 +33,7 @@ jobs:
    - task: put_versions
      file: pipelines_source/deployments/platform/tasks/put-versions.yml
      params:
+      NEW_BRANCH: patch-versions
       OUTPUT_FILE: deployments/platform/environments/development/output_versions.yml
    - put: pipelines_source
      params:

@@ -8,8 +8,8 @@ cd pipelines_source
 git config user.email "cg-ci-bot@cloud.gov"
 git config user.name "cg-ci-bot"
 
-if [ -n "${SOURCE_BRANCH}"]; then
-    git switch -c ${SOURCE_BRANCH}
+if [ ! -z ${NEW_BRANCH} ]; then
+    git switch -c ${NEW_BRANCH}
 fi
 
 git commit -a -m "commiting build's resource version data"

@@ -14,6 +14,7 @@ outputs:
 
 # params:
 #  OUTPUT_FILE
+#  SOURCE_BRANCH
 
 run:
   path: pipelines_source/deployments/platform/tasks/put-versions.sh 
