@@ -14,4 +14,5 @@ fi
 
 git add .
 
+
 git commit -a -m "commiting build's resource version data"

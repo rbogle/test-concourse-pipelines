@@ -1,0 +1,32 @@
+environments: 
+  - name: "development"
+    state_repo: "git@github.com:rbogle/test-concourse-pipelines.git"
+    state_branch: "main"
+    depends_on: "deployments/platform/development/input_versions.yml"
+    auto_promote: true
+
+  - name: "staging"
+    state_repo: "git@github.com:rbogle/test-concourse-pipelines.git"
+    state_branch: "main"
+    depends_on: "deployments/platform/development/output_versions.yml"
+    auto_promote: true
+
+  - name": "production"
+    state_repo: "git@github.com:rbogle/test-concourse-pipelines.git"
+    state_branch: "main"
+    depends_on: "deployments/platform/staging/output_versions.yml"
+    auto_promote: false
+
+components:
+  - name: component-a
+    repo: https://github.com/rbogle/env-component-a
+    branch: main
+    type: pipeline
+  - name: component-b
+    repo: https://github.com/rbogle/env-component-b
+    branch: main
+    type: jobs
+  - name: component-c
+    repo: https://github.com/rbogle/env-component-c
+    branch: main
+    type: jobs
