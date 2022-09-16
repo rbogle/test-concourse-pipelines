@@ -1,1 +1,4 @@
-
+resource_version_pipelines_source:
+  ref: c1d18a037a666688b10ed7f835ba65631f11b724
+resource_version_metadata:
+  random: "3337"
