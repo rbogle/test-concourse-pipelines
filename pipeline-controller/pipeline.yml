@@ -47,6 +47,8 @@ jobs:
       - pipelines-source/deployment-controller/controller-vars.yml
     vars: 
       git_key: ((git_key))
+      source_repo: ((source_repo))
+      source_branch: ((source_branch))
 
 - name: release-lock
   plan: 

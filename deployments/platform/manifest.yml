@@ -1,18 +1,18 @@
 environments: 
   - name: "development"
-    state_repo: "https://github.com/rbogle/test-concourse-pipelines"
-    state_branch: "deployments"
-    depends_on: "deployments/platform/development/latest.yml"
-    auto_promoted: true
+    state_repo: "git@github.com:rbogle/test-concourse-pipelines.git"
+    state_branch: "main"
+    depends_on: "deployments/platform/development/input_versions.yml"
+    auto_promote: true
 
   - name: "staging"
-    state_repo: "https://github.com/rbogle/test-concourse-pipelines"
-    state_branch: "deployments"
-    depends_on: "deployments/platform/development/versions.yml"
-    auto_promoted: true
+    state_repo: "git@github.com:rbogle/test-concourse-pipelines.git"
+    state_branch: "main"
+    depends_on: "deployments/platform/development/output_versions.yml"
+    auto_promote: true
 
   - name": "production"
-    state_repo: "https://github.com/rbogle/test-concourse-pipelines"
-    state_branch: "deployments"
-    depends_on: "deployments/platform/staging/versions.yml"
-    auto_promoted: false
+    state_repo: "git@github.com:rbogle/test-concourse-pipelines.git"
+    state_branch: "main"
+    depends_on: "deployments/platform/staging/output_versions.yml"
+    auto_promote: false

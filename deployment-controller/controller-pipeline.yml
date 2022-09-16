@@ -4,8 +4,8 @@ resources:
   type: git
   icon: github
   source:
-    uri: https://github.com/rbogle/test-concourse-pipelines
-    branch: main
+    uri: ((source_repo))
+    branch: ((source_branch))
 
 jobs:
 - name: build-platform-pipelines
@@ -22,9 +22,9 @@ jobs:
      - set_pipeline: platform-((.:env.name))-deployment-pipeline
        file: pipelines-source/deployments/platform/pipeline-template.yaml
        vars-files:
-        - pipelines-source/deployments/platform/((.env:name))/versions.yml
+        - pipelines-source/((.env:depends_on))
        vars: 
           environment: ((.:env)) # pass a whole json object
           # state_file: ((.:env.name))-state-file.yml
-          created_by: ((source)) # injected by the main-pipeline at set-pipeline
+          created_by: ((source)) # injected by the main-pipeline at set-pipeline as example
           git_key: ((git_key))
