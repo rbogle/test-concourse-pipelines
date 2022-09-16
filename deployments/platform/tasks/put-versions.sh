@@ -13,7 +13,7 @@ fi
 
 # test for change and commit it, otherwise exit 
 CHANGE=$(git status -s)
-if [ ! -z "${CHANGE}"]; then
+if [ ! -z "${CHANGE}" ]; then
     git add .
     git commit -a -m "commiting build's resource version data"
 fi
