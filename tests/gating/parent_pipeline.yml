@@ -45,6 +45,9 @@ jobs:
 - name: set_child_pipeline
   plan:
    - get: pipelines-source
+   - get: child-gate
+     trigger: true
+     passed: [set_child_trigger]
    - set_pipeline: child-pipeline
      file: pipelines-source/tests/gating/child_pipeline.yml
      var_files:
