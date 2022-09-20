@@ -41,4 +41,4 @@ jobs:
      file: pipelines-source/tests/gating/tasks/child-task.yml
    - put: parent-gate
      params:
-      item_file: output/*
+      item_file: output/run*
