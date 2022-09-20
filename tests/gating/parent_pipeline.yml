@@ -16,14 +16,14 @@ resources:
       private_key: ((git_key))
     gate: child
 
-- name: parent-gate
-  type: gate-resource
-  source:
-    git: 
-      uri: ((gate_repo))
-      branch: ((gate_branch))
-      private_key: ((git_key))
-    gate: parent
+# - name: parent-gate
+#   type: gate-resource
+#   source:
+#     git: 
+#       uri: ((gate_repo))
+#       branch: ((gate_branch))
+#       private_key: ((git_key))
+#     gate: parent
 
 resource_types:
 - name: gate-resource
