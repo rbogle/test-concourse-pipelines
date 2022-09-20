@@ -11,5 +11,4 @@ run:
     - -exc
     - | 
       stamp=$(date +%s)
-      touch ./gates/child_run_${stamp}
-      touch ./gates/parent_run_${stamp}
+      echo "${stamp}" > ./gates/run_${stamp}
