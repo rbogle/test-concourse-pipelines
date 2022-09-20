@@ -36,10 +36,9 @@ jobs:
   plan:
    - get: child-gate
      trigger: true
-   - get: parent-gate
    - get: pipelines-source
    - task: child_task
      file: pipelines-source/tests/gating/tasks/child-task.yml
    - put: parent-gate
      params:
-      item_file: child-gate/run*
+      item_file: output/*

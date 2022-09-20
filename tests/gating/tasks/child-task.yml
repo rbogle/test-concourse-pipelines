@@ -3,6 +3,10 @@ image_resource:
   type: docker-image
   source:
     repository: alpine
+inputs: 
+ - name: child-gate
+outputs: 
+ - name: output
 run: 
   path: /bin/sh
   args:
@@ -11,5 +15,8 @@ run:
       echo "sleeping"
       sleep 60
       echo "waking"
+      runfile=$(cat child-gate/passed)
+      timestamp=$(cat child-gate/metadata)
+      echo ${timestamp} > output/${runfile}
 
       
