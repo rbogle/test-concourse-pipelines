@@ -45,6 +45,7 @@ jobs:
 - name: set_child_pipeline
   plan:
    - get: pipelines-source
+   - get: parent-gate
    - get: child-gate
      trigger: true
      passed: [set_child_trigger]
