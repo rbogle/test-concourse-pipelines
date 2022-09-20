@@ -94,7 +94,7 @@ jobs:
     passed: [set_child_pipeline-a, set_child_pipeline-a]
   - get: pipelines-source
   - task: parent_task
-    file: pipelines-source/tests/gating/tasks/make-gates.yml
+    file: pipelines-source/tests/gating/tasks/make-trigger.yml
   
 
 
