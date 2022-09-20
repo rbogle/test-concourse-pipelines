@@ -41,6 +41,8 @@ jobs:
      input_mapping:
       trigger: trigger-event
      file: pipelines-source/tests/gating/tasks/child-task.yml
+     params:
+       EVENT_NAME: ((trigger_event_name))
    - put: completion-event
      params:
       item_file: output/*

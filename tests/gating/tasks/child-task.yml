@@ -3,10 +3,16 @@ image_resource:
   type: docker-image
   source:
     repository: alpine
+
 inputs: 
  - name: trigger
+
 outputs: 
  - name: output
+
+params:
+ EVENT_NAME: 
+
 run: 
   path: /bin/sh
   args:
@@ -18,6 +24,6 @@ run:
       echo "waking and setting completion event"
       runfile=$(cat trigger/passed)
       timestamp=$(cat trigger/metadata)
-      echo ${timestamp} > output/${runfile}
+      echo ${timestamp} > output/${EVENT_NAME}_${runfile}
 
       
