@@ -1,0 +1,5 @@
+source_repo: git@github.com:rbogle/test-concourse-pipelines.git
+source_branch: main
+
+gate_repo: git@github.com:rbogle/concourse-locks.git
+gate_branch: gates

@@ -1,0 +1,15 @@
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: alpine
+outputs: 
+  - name: gates
+run: 
+  path: /bin/sh
+  args:
+    - -exc
+    - | 
+      stamp=$(date +%s)
+      touch ./gates/child_run_${stamp}
+      touch ./gates/parent_run_${stamp}

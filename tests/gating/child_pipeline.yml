@@ -1,0 +1,41 @@
+resources: 
+- name: pipelines-source
+  type: git
+  icon: github
+  source:
+    uri: ((source_repo))
+    branch: ((source_branch))
+    private_key: ((git_key))
+
+- name: child-gate
+  type: gate-resource
+  source:
+    git: 
+      uri: ((gate_repo))
+      branch: ((gate_branch))
+      private_key: ((git_key))
+    gate: child
+
+- name: parent-gate
+  type: gate-resource
+  source:
+    git: 
+      uri: ((gate_repo))
+      branch: ((gate_branch))
+      private_key: ((git_key))
+    gate: parent
+
+resource_types:
+- name: gate-resource
+  type: docker-image
+  source:
+    repository: meshcloud/gate-resource
+
+jobs:
+- name: do_task
+  plan:
+   - get: child-gate
+   - get: parent-gate
+   - get: pipelines-source
+   - task: child_task
+     file: pipelines-source/tests/gating/tasks/child-task.yml
