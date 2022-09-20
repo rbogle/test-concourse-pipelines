@@ -77,7 +77,7 @@ jobs:
    - get: parent-trigger
    - get: child-trigger-b
      trigger: true
-     passed: [set_child_trigger]
+     passed: [set_child_triggers]
    - set_pipeline: child-pipeline-b
      file: pipelines-source/tests/gating/child_pipeline.yml
      var_files:
