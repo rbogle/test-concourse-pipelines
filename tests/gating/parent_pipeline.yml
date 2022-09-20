@@ -7,16 +7,25 @@ resources:
     branch: ((source_branch))
     private_key: ((git_key))
 
-- name: child-gate
+- name: child-trigger-a
   type: gate-resource
   source:
     git: 
       uri: ((gate_repo))
       branch: ((gate_branch))
       private_key: ((git_key))
-    gate: child
+    gate: child-a
 
-- name: parent-gate
+- name: child-trigger-b
+  type: gate-resource
+  source:
+    git: 
+      uri: ((gate_repo))
+      branch: ((gate_branch))
+      private_key: ((git_key))
+    gate: child-b
+
+- name: parent-trigger
   type: gate-resource
   source:
     git: 
@@ -32,37 +41,60 @@ resource_types:
     repository: meshcloud/gate-resource
 
 jobs:
-- name: set_child_trigger
+- name: set_child_triggers
   plan:
-   - get: child-gate
+   - get: child-trigger-a
+   - get: child-trigger-b
    - get: pipelines-source
-   - task: make_gates
-     file: pipelines-source/tests/gating/tasks/make-gates.yml
-   - put: child-gate
+   - task: make_trigger
+     file: pipelines-source/tests/gating/tasks/make-trigger.yml
+   - put: child-trigger-a
      params:
-       item_file: gates/run*
+       item_file: trigger/*
+   - put: child-trigger-b
+     params:
+       item_file: trigger/*
 
-- name: set_child_pipeline
+- name: set_child_pipeline-a
   plan:
    - get: pipelines-source
-   - get: parent-gate
-   - get: child-gate
+   - get: parent-trigger
+   - get: child-trigger-a
      trigger: true
      passed: [set_child_trigger]
-   - set_pipeline: child-pipeline
+   - set_pipeline: child-pipeline-a
      file: pipelines-source/tests/gating/child_pipeline.yml
      var_files:
       - pipelines-source/tests/gating/config.yml
      vars: 
       git_key: ((git_key))
+      trigger_event_name: child-a
+      completion_event_name: parent
 
-
-- name: finish_after_child
+- name: set_child_pipeline-b
   plan:
-  - get: parent-gate
+   - get: pipelines-source
+   - get: parent-trigger
+   - get: child-trigger-b
+     trigger: true
+     passed: [set_child_trigger]
+   - set_pipeline: child-pipeline-b
+     file: pipelines-source/tests/gating/child_pipeline.yml
+     var_files:
+      - pipelines-source/tests/gating/config.yml
+     vars: 
+      git_key: ((git_key))
+      trigger_event_name: child-b
+      completion_event_name: parent
+
+- name: do_task_after_children
+  plan:
+  - get: parent-trigger
     trigger: true
-    passed: [set_child_pipeline]
+    passed: [set_child_pipeline-a, set_child_pipeline-a]
+  - get: pipelines-source
+  - task: parent_task
+    file: pipelines-source/tests/gating/tasks/make-gates.yml
   
 
-# - name: finish_tasks
 

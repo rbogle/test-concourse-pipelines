@@ -1,0 +1,14 @@
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: alpine
+outputs: 
+  - name: trigger
+run: 
+  path: /bin/sh
+  args:
+    - -exc
+    - | 
+      stamp=$(date +%s)
+      echo "${stamp}" > ./trigger/run_${stamp}

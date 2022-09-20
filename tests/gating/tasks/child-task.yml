@@ -4,7 +4,7 @@ image_resource:
   source:
     repository: alpine
 inputs: 
- - name: child-gate
+ - name: trigger
 outputs: 
  - name: output
 run: 
@@ -12,11 +12,12 @@ run:
   args:
     - -exc
     - | 
-      echo "sleeping"
-      sleep 60
-      echo "waking"
-      runfile=$(cat child-gate/passed)
-      timestamp=$(cat child-gate/metadata)
+      delay=$((RANDOM % 60))
+      echo "sleeping for ${delay} seconds"
+      sleep ${delay}
+      echo "waking and setting completion event"
+      runfile=$(cat trigger/passed)
+      timestamp=$(cat trigger/metadata)
       echo ${timestamp} > output/${runfile}
 
       

@@ -3,12 +3,12 @@ image_resource:
   type: docker-image
   source:
     repository: alpine
-outputs: 
-  - name: gates
 run: 
   path: /bin/sh
   args:
     - -exc
     - | 
-      stamp=$(date +%s)
-      echo "${stamp}" > ./gates/run_${stamp}
+      delay=$((RANDOM % 60))
+      echo "sleeping for ${delay} seconds"
+      sleep ${delay}
+      echo "waking"

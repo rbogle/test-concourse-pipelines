@@ -7,23 +7,23 @@ resources:
     branch: ((source_branch))
     private_key: ((git_key))
 
-- name: child-gate
+- name: trigger-event
   type: gate-resource
   source:
     git: 
       uri: ((gate_repo))
       branch: ((gate_branch))
       private_key: ((git_key))
-    gate: child
+    gate: ((trigger_event_name))
 
-- name: parent-gate
+- name: completion-event
   type: gate-resource
   source:
     git: 
       uri: ((gate_repo))
       branch: ((gate_branch))
       private_key: ((git_key))
-    gate: parent
+    gate: ((completion_event_name))
 
 resource_types:
 - name: gate-resource
@@ -34,11 +34,13 @@ resource_types:
 jobs:
 - name: do_task
   plan:
-   - get: child-gate
+   - get: trigger-event
      trigger: true
    - get: pipelines-source
    - task: child_task
+     input_mapping:
+      trigger: trigger-event
      file: pipelines-source/tests/gating/tasks/child-task.yml
-   - put: parent-gate
+   - put: completion-event
      params:
-      item_file: output/run*
+      item_file: output/*
