@@ -16,15 +16,6 @@ resources:
       private_key: ((git_key))
     gate: ((trigger_event_name))
 
-- name: completion-event
-  type: gate-resource
-  source:
-    git: 
-      uri: ((gate_repo))
-      branch: ((gate_branch))
-      private_key: ((git_key))
-    gate: ((completion_event_name))
-
 resource_types:
 - name: gate-resource
   type: docker-image
@@ -41,8 +32,6 @@ jobs:
      input_mapping:
       trigger: trigger-event
      file: pipelines-source/tests/gating/tasks/child-task.yml
-     params:
-       EVENT_NAME: ((trigger_event_name))
-   - put: completion-event
+   - put: trigger-event
      params:
       item_file: output/*

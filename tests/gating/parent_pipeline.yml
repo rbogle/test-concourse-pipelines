@@ -7,7 +7,7 @@ resources:
     branch: ((source_branch))
     private_key: ((git_key))
 
-- name: child-trigger-a
+- name: child-a-trigger
   type: gate-resource
   source:
     git: 
@@ -16,7 +16,7 @@ resources:
       private_key: ((git_key))
     gate: child-a
 
-- name: child-trigger-b
+- name: child-b-trigger
   type: gate-resource
   source:
     git: 
@@ -25,7 +25,7 @@ resources:
       private_key: ((git_key))
     gate: child-b
 
-- name: parent-trigger
+- name: parent-triggers
   type: gate-resource
   source:
     git: 
@@ -41,27 +41,37 @@ resource_types:
     repository: meshcloud/gate-resource
 
 jobs:
-- name: set_child_triggers
+- name: set_triggers
   plan:
-   - get: child-trigger-a
-   - get: child-trigger-b
+   - get: child-a-triggers
+   - get: child-b-triggers
+   - get: parent-triggers
    - get: pipelines-source
    - task: make_trigger
      file: pipelines-source/tests/gating/tasks/make-trigger.yml
-   - put: child-trigger-a
      params:
-       item_file: trigger/*
-   - put: child-trigger-b
+      children: [child-a, child-b]
+   - put: child-a-triggers
      params:
-       item_file: trigger/*
+       item_file: trigger/child-a_run*
+   - put: child-b-triggers
+     params:
+       item_file: trigger/child-b_run*
+   - put: parent-triggers
+     params:
+       item_file: trigger/child_completions*
 
-- name: set_child_pipeline-a
+- name: set_child_pipelines
   plan:
    - get: pipelines-source
-   - get: parent-trigger
-   - get: child-trigger-a
-     trigger: true
-     passed: [set_child_triggers]
+   - get: parent-triggers
+   - aggregate:
+      - get: child-b-triggers
+        trigger: true
+        passed: [set_triggers]
+      - get: childba-triggers
+        trigger: true
+        passed: [set_triggers]
    - set_pipeline: child-pipeline-a
      file: pipelines-source/tests/gating/child_pipeline.yml
      var_files:
@@ -70,14 +80,6 @@ jobs:
       git_key: ((git_key))
       trigger_event_name: child-a
       completion_event_name: parent
-
-- name: set_child_pipeline-b
-  plan:
-   - get: pipelines-source
-   - get: parent-trigger
-   - get: child-trigger-b
-     trigger: true
-     passed: [set_child_triggers]
    - set_pipeline: child-pipeline-b
      file: pipelines-source/tests/gating/child_pipeline.yml
      var_files:
@@ -87,14 +89,27 @@ jobs:
       trigger_event_name: child-b
       completion_event_name: parent
 
+- name: parent-autogate
+  plan:
+    - aggregate:
+        - get: child-b-triggers
+          trigger: true
+          passed: [set_child_pipelines]
+        - get: childba-triggers
+          trigger: true
+          passed: [set_child_pipelines]
+    - put: parent-triggers
+      params:
+        update_autoclose: true
+
 - name: do_task_after_children
   plan:
   - get: parent-trigger
     trigger: true
-    passed: [set_child_pipeline-a, set_child_pipeline-a]
+    passed: [parent-autogate]
   - get: pipelines-source
   - task: parent_task
-    file: pipelines-source/tests/gating/tasks/make-trigger.yml
+    file: pipelines-source/tests/gating/tasks/parent-task.yml
   
 
 

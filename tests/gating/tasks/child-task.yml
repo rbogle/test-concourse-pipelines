@@ -24,6 +24,6 @@ run:
       echo "waking and setting completion event"
       runfile=$(cat trigger/passed)
       timestamp=$(cat trigger/metadata)
-      echo ${timestamp} > output/${EVENT_NAME}_${runfile}
+      echo ${timestamp} > output/completed_${runfile}
 
       

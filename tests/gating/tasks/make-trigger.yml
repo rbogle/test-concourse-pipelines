@@ -5,10 +5,16 @@ image_resource:
     repository: alpine
 outputs: 
   - name: trigger
+params:
+  children: 
 run: 
   path: /bin/sh
   args:
     - -exc
     - | 
       stamp=$(date +%s)
-      echo "${stamp}" > ./trigger/run_${stamp}
+      for child in ${children[@]}; 
+      do
+        echo "${stamp}" > ./trigger/${child}_run_${stamp}
+        echo "${child}/completed_${child}_run_${stamp}" >> ./trigger/child_completions_${stamp}.autoclose
+      done
