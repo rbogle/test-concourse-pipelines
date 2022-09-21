@@ -65,7 +65,7 @@ jobs:
   plan:
    - get: pipelines-source
    - get: parent-triggers
-   - aggregate:
+   - in_parallel:
       - get: child-b-triggers
         trigger: true
         passed: [set_triggers]
@@ -91,7 +91,7 @@ jobs:
 
 - name: parent-autogate
   plan:
-    - aggregate:
+    - in_parallel:
         - get: child-b-triggers
           trigger: true
           passed: [set_child_pipelines]
