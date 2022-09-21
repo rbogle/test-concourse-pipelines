@@ -13,7 +13,7 @@ run:
     - -exc
     - | 
       stamp=$(date +%s)
-      for child in ${children[@]}; 
+      for child in $(echo $children | tr " "); 
       do
         echo "${stamp}" > ./trigger/${child}_run_${stamp}
         echo "${child}/completed_${child}_run_${stamp}" >> ./trigger/child_completions_${stamp}.autoclose

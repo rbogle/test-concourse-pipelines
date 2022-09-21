@@ -50,7 +50,7 @@ jobs:
     - task: make_trigger
       file: pipelines-source/tests/gating/tasks/make-trigger.yml
       params:
-        children: [child-a, child-b]
+        children: "child-a child-b"
     - put: child-a-triggers
       params:
         item_file: trigger/child-a_run*
